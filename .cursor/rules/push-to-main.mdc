@@ -1,0 +1,17 @@
+---
+description: Después de modificar código, hacer commit y push a main
+alwaysApply: true
+---
+
+# Push to main después de cambios
+
+Cada vez que hagas cambios en el código de este proyecto:
+
+1. **Hacer commit** de los cambios:
+   - `git add .`
+   - `git commit -m "Descripción breve del cambio"`
+
+2. **Hacer push a main**:
+   - `git push origin main`
+
+Ejecuta estos comandos en la terminal del proyecto (`c:\Users\Usuario\kuronekoclean`) al terminar de editar archivos. Usa un mensaje de commit claro en español (ej.: "Ajuste icono de planchar", "Centrar texto de tareas").
