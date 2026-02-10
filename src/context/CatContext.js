@@ -4,24 +4,29 @@ const CatContext = createContext();
 
 const TAREAS_DIARIAS = [
   { id: 'd1', nombre: 'Barrer y trapear', icono: '🏠', hecha: false },
-  { id: 'd2', nombre: 'Limpiar cocina', icono: '🍳', hecha: false },
-  { id: 'd3', nombre: 'Baño', icono: '🚿', hecha: false },
-  { id: 'd4', nombre: 'Tender camas / ordenar', icono: '🛏️', hecha: false },
-  { id: 'd5', nombre: 'Sacar basura', icono: '🗑️', hecha: false },
-  { id: 'd6', nombre: 'Limpiar polvo', icono: '✨', hecha: false },
+  { id: 'd2', nombre: 'Hacer desayuno', icono: '🍳', hecha: false },
+  { id: 'd3', nombre: 'Tomar desayuno', icono: '☕', hecha: false },
+  { id: 'd4', nombre: 'Baño', icono: '🚿', hecha: false },
+  { id: 'd5', nombre: 'Bañarse', icono: '🛁', hecha: false },
+  { id: 'd6', nombre: 'Tender camas / ordenar', icono: '🛏️', hecha: false },
+  { id: 'd7', nombre: 'Tomar once', icono: '🍵', hecha: false },
+  { id: 'd8', nombre: 'Sacar basura', icono: '🗑️', hecha: false },
+  { id: 'd9', nombre: 'Limpiar polvo', icono: '✨', hecha: false },
 ];
 
 const TAREAS_SEMANALES = [
   { id: 's1', nombre: 'Lavar ropa', icono: '👕', hecha: false },
   { id: 's2', nombre: 'Planchar', icono: '👔', hecha: false },
-  { id: 's3', nombre: 'Limpiar refrigerador', icono: '🧊', hecha: false },
-  { id: 's4', nombre: 'Cambiar sábanas', icono: '🛏️', hecha: false },
-  { id: 's5', nombre: 'Ordenar armarios', icono: '🚪', hecha: false },
+  { id: 's3', nombre: 'Limpiar cocina', icono: '🍳', hecha: false },
+  { id: 's4', nombre: 'Lavar loza', icono: '🍽️', hecha: false },
+  { id: 's5', nombre: 'Limpiar refrigerador', icono: '🧊', hecha: false },
+  { id: 's6', nombre: 'Cambiar sábanas', icono: '🛏️', hecha: false },
+  { id: 's7', nombre: 'Ordenar armarios', icono: '🚪', hecha: false },
 ];
 
 const TAREAS_MENSUALES = [
   { id: 'm1', nombre: 'Limpiar ventanas', icono: '🪟', hecha: false },
-  { id: 'm2', nombre: 'Aspirar muebles', icono: '🛋️', hecha: false },
+  { id: 'm2', nombre: 'Aspirar', icono: '🛋️', hecha: false },
   { id: 'm3', nombre: 'Revisar despensa', icono: '🥫', hecha: false },
   { id: 'm4', nombre: 'Limpiar lámparas', icono: '💡', hecha: false },
 ];
