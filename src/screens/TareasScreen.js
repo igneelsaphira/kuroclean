@@ -95,11 +95,11 @@ const ICONO_PLANCHAR = require('../../assets/icon-planchar.png');
 const ICONO_LIMPIAR_LAMPARAS = require('../../assets/icon-limpiar-lamparas.png');
 
 function iconStyleForTask(tipo, taskId) {
-  if (tipo === 'diaria' && taskId === 'd1') return styles.taskIconImageCastillo;
-  if (tipo === 'diaria' && taskId === 'd4') return styles.taskIconImageBano;
-  if (tipo === 'diaria' && taskId === 'd9') return styles.taskIconImagePolvo;
+  if (tipo === 'diaria' && taskId === 'd9') return styles.taskIconImageCastillo;
+  if (tipo === 'diaria' && taskId === 'd3') return styles.taskIconImageBano;
+  if (tipo === 'diaria' && taskId === 'd7') return styles.taskIconImagePolvo;
   if (tipo === 'semanal' && taskId === 's1') return styles.taskIconImageLarge;
-  if (tipo === 'diaria' && taskId === 'd6') return styles.taskIconImageLarge;
+  if (tipo === 'diaria' && taskId === 'd4') return styles.taskIconImageLarge;
   if (tipo === 'mensual' && taskId === 'm1') return styles.taskIconImageVentanasLarge;
   return styles.taskIconImage;
 }
@@ -109,7 +109,7 @@ function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema }) {
   return (
     <ScrollView style={styles.lista} contentContainerStyle={styles.listaContent}>
       {tareas.map((task) => {
-        const iconoImagen = (tipo === 'semanal' && task.id === 's1') ? ICONO_LAVAR_ROPA : (tipo === 'semanal' && task.id === 's2') ? ICONO_PLANCHAR : (tipo === 'semanal' && task.id === 's7') ? ICONO_ORDENAR_ARMARIOS : (tipo === 'diaria' && task.id === 'd1') ? ICONO_BARRER_TRAPEAR : (tipo === 'diaria' && task.id === 'd4') ? ICONO_BANO : (tipo === 'diaria' && task.id === 'd6') ? ICONO_TENDER_CAMA : (tipo === 'diaria' && task.id === 'd9') ? ICONO_LIMPIAR_POLVO : (tipo === 'mensual' && task.id === 'm1') ? ICONO_LIMPIAR_VENTANAS : (tipo === 'mensual' && task.id === 'm4') ? ICONO_LIMPIAR_LAMPARAS : null;
+        const iconoImagen = (tipo === 'semanal' && task.id === 's1') ? ICONO_LAVAR_ROPA : (tipo === 'semanal' && task.id === 's2') ? ICONO_PLANCHAR : (tipo === 'semanal' && task.id === 's6') ? ICONO_ORDENAR_ARMARIOS : (tipo === 'diaria' && task.id === 'd9') ? ICONO_BARRER_TRAPEAR : (tipo === 'diaria' && task.id === 'd3') ? ICONO_BANO : (tipo === 'diaria' && task.id === 'd4') ? ICONO_TENDER_CAMA : (tipo === 'diaria' && task.id === 'd7') ? ICONO_LIMPIAR_POLVO : (tipo === 'mensual' && task.id === 'm1') ? ICONO_LIMPIAR_VENTANAS : (tipo === 'mensual' && task.id === 'm4') ? ICONO_LIMPIAR_LAMPARAS : null;
         const usarIconoImagen = !!iconoImagen;
         return (
         <TouchableOpacity
@@ -118,15 +118,15 @@ function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema }) {
             styles.taskBase,
             { backgroundColor: t.taskBg, borderColor: t.taskBorder },
             task.hecha && { backgroundColor: t.taskDoneBg, borderColor: t.taskDoneBorder },
-            (tipo === 'diaria' && task.id === 'd4') && { borderColor: 'transparent' },
-            (tipo === 'diaria' && task.id === 'd6') && styles.taskBaseWithLargeIconTenderCama,
+            (tipo === 'diaria' && task.id === 'd3') && { borderColor: 'transparent' },
+            (tipo === 'diaria' && task.id === 'd4') && styles.taskBaseWithLargeIconTenderCama,
             (tipo === 'mensual' && task.id === 'm1') && styles.taskBaseWithLargeIcon,
           ]}
           onPress={() => marcarTarea(tipo, task.id)}
           activeOpacity={0.7}
         >
           {usarIconoImagen ? (
-            <View style={[styles.taskIconImageWrap, styles.taskIconImageWrapOnTop, (tipo === 'diaria' && task.id === 'd6') && styles.taskIconImageWrapTenderCama, (tipo === 'mensual' && task.id === 'm1') && styles.taskIconImageWrapLarge]} pointerEvents="box-none">
+            <View style={[styles.taskIconImageWrap, styles.taskIconImageWrapOnTop, (tipo === 'diaria' && task.id === 'd4') && styles.taskIconImageWrapTenderCama, (tipo === 'mensual' && task.id === 'm1') && styles.taskIconImageWrapLarge]} pointerEvents="box-none">
               <ExpoImage
                 source={iconoImagen}
                 style={[iconStyleForTask(tipo, task.id), { backgroundColor: 'transparent' }]}
@@ -136,7 +136,7 @@ function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema }) {
           ) : (
             <Text style={styles.taskIcon}>{task.icono}</Text>
           )}
-          <Text style={[styles.taskText, (tipo === 'diaria' && task.id === 'd4') && styles.taskTextBanoOffset, (tipo === 'diaria' && task.id === 'd6') && styles.taskTextTenderCama, (tipo === 'mensual' && task.id === 'm1') && styles.taskTextLimpiarVentanas, task.hecha && { color: t.taskTextDone, textDecorationLine: 'line-through' }]}>{tipo === 'diaria' && task.id === 'd9' ? `${task.nombre} ✨` : task.nombre}</Text>
+          <Text style={[styles.taskText, (tipo === 'diaria' && task.id === 'd3') && styles.taskTextBanoOffset, (tipo === 'diaria' && task.id === 'd4') && styles.taskTextTenderCama, (tipo === 'mensual' && task.id === 'm1') && styles.taskTextLimpiarVentanas, task.hecha && { color: t.taskTextDone, textDecorationLine: 'line-through' }]}>{tipo === 'diaria' && task.id === 'd7' ? `${task.nombre} ✨` : task.nombre}</Text>
           <View style={[styles.checkBase, { borderColor: t.checkBorder }, task.hecha && { backgroundColor: t.checkDoneBg, borderColor: t.checkDoneBorder }]}>
             <Text style={styles.checkText}>{task.hecha ? '✓' : ''}</Text>
           </View>
