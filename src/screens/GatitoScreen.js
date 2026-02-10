@@ -36,12 +36,26 @@ export default function GatitoScreen() {
   const breathe = useRef(new Animated.Value(1)).current;
   const bob = useRef(new Animated.Value(0)).current;
   const tareasScale = useRef(new Animated.Value(1)).current;
+  const alimentarScale = useRef(new Animated.Value(1)).current;
+  const jugarScale = useRef(new Animated.Value(1)).current;
 
   const tareasPressIn = () => {
     Animated.spring(tareasScale, { toValue: 0.88, useNativeDriver: true, speed: 80 }).start();
   };
   const tareasPressOut = () => {
     Animated.spring(tareasScale, { toValue: 1, useNativeDriver: true, speed: 80 }).start();
+  };
+  const alimentarPressIn = () => {
+    Animated.spring(alimentarScale, { toValue: 0.88, useNativeDriver: true, speed: 80 }).start();
+  };
+  const alimentarPressOut = () => {
+    Animated.spring(alimentarScale, { toValue: 1, useNativeDriver: true, speed: 80 }).start();
+  };
+  const jugarPressIn = () => {
+    Animated.spring(jugarScale, { toValue: 0.88, useNativeDriver: true, speed: 80 }).start();
+  };
+  const jugarPressOut = () => {
+    Animated.spring(jugarScale, { toValue: 1, useNativeDriver: true, speed: 80 }).start();
   };
 
   useEffect(() => {
@@ -167,24 +181,40 @@ export default function GatitoScreen() {
         <Text style={styles.nombre}>Kuroneko</Text>
       </View>
 
-      {/* Ventanas de estado más pequeñas */}
+      {/* Hambre y Felicidad: mismo estilo pastel que Tareas */}
       <View style={styles.statsCard}>
-        <BarraMini valor={hambre} color="#e74c3c" label="Hambre" />
-        <BarraMini valor={felicidad} color="#2ecc71" label="Felicidad" />
+        <BarraMini valor={hambre} color="rgba(220, 120, 130, 0.95)" label="🍽️ Hambre" />
+        <BarraMini valor={felicidad} color="rgba(120, 200, 160, 0.95)" label="💚 Felicidad" />
         {progresoAseo > 0 && (
           <Text style={styles.aseoBonus}>✨ +{Math.floor(progresoAseo / 20)} aseo</Text>
         )}
       </View>
 
-      {/* Alimentar y Jugar más pequeños */}
+      {/* Alimentar y Jugar: mismo estilo que botón Tareas (pastel + animación) */}
       <View style={styles.actions}>
-        <TouchableOpacity style={[styles.btn, styles.btnComida]} onPress={alimentar}>
-          <Text style={styles.btnIcon}>🍽️</Text>
-          <Text style={styles.btnText}>Alimentar</Text>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPressIn={alimentarPressIn}
+          onPressOut={alimentarPressOut}
+          onPress={alimentar}
+          style={[styles.btnPapel, styles.btnComida]}
+        >
+          <Animated.View style={{ transform: [{ scale: alimentarScale }] }}>
+            <Text style={styles.btnPapelIcon}>🍽️</Text>
+            <Text style={styles.btnPapelText}>Alimentar</Text>
+          </Animated.View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.btn, styles.btnJugar]} onPress={jugar}>
-          <Text style={styles.btnIcon}>🎾</Text>
-          <Text style={styles.btnText}>Jugar</Text>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPressIn={jugarPressIn}
+          onPressOut={jugarPressOut}
+          onPress={jugar}
+          style={[styles.btnPapel, styles.btnJugar]}
+        >
+          <Animated.View style={{ transform: [{ scale: jugarScale }] }}>
+            <Text style={styles.btnPapelIcon}>🎾</Text>
+            <Text style={[styles.btnPapelText, styles.btnPapelTextJugar]}>Jugar</Text>
+          </Animated.View>
         </TouchableOpacity>
       </View>
 
@@ -265,44 +295,84 @@ const styles = StyleSheet.create({
     bottom: 100,
     left: 20,
     right: 20,
-    backgroundColor: 'rgba(26, 26, 46, 0.92)',
-    borderRadius: 12,
-    padding: 12,
+    backgroundColor: 'rgba(90, 55, 130, 0.45)',
+    borderRadius: 20,
+    padding: 14,
     borderWidth: 1,
-    borderColor: '#2D5A3D',
+    borderColor: 'rgba(140, 90, 180, 0.6)',
   },
-  barRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
-  barLabel: { color: '#a0a0a0', width: 56, fontSize: 11 },
+  barRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  barLabel: {
+    color: 'rgba(220, 190, 255, 0.98)',
+    width: 82,
+    fontSize: 13,
+    fontWeight: '600',
+    textShadowColor: 'rgba(140, 90, 180, 0.4)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 2,
+  },
   barBg: {
     flex: 1,
-    height: 6,
-    backgroundColor: '#0f3460',
-    borderRadius: 3,
+    height: 8,
+    backgroundColor: 'rgba(70, 45, 110, 0.5)',
+    borderRadius: 4,
     overflow: 'hidden',
-    marginHorizontal: 6,
+    marginHorizontal: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(140, 90, 180, 0.4)',
   },
   barFill: { height: '100%', borderRadius: 3 },
-  barValue: { color: '#fff', width: 28, textAlign: 'right', fontSize: 11 },
-  aseoBonus: { color: '#7bed9f', fontSize: 10, marginTop: 4 },
+  barValue: {
+    color: 'rgba(220, 190, 255, 0.98)',
+    width: 32,
+    textAlign: 'right',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  aseoBonus: {
+    color: 'rgba(180, 220, 200, 0.95)',
+    fontSize: 11,
+    marginTop: 6,
+    fontWeight: '600',
+  },
   actions: {
     position: 'absolute',
     bottom: 36,
     left: 20,
     right: 20,
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
   },
-  btn: {
+  btnPapel: {
     flex: 1,
-    padding: 10,
-    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+    borderRadius: 20,
     alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1,
   },
-  btnComida: { backgroundColor: 'rgba(45, 26, 46, 0.95)', borderColor: '#e74c3c' },
-  btnJugar: { backgroundColor: 'rgba(26, 45, 46, 0.95)', borderColor: '#2ecc71' },
-  btnIcon: { fontSize: 22, marginBottom: 2 },
-  btnText: { color: '#fff', fontSize: 13, fontWeight: '600' },
+  btnComida: {
+    backgroundColor: 'rgba(90, 55, 130, 0.5)',
+    borderColor: 'rgba(180, 120, 140, 0.7)',
+  },
+  btnJugar: {
+    backgroundColor: 'rgba(70, 120, 100, 0.5)',
+    borderColor: 'rgba(120, 180, 150, 0.7)',
+  },
+  btnPapelIcon: { fontSize: 24, marginBottom: 4 },
+  btnPapelText: {
+    color: 'rgba(220, 190, 255, 0.98)',
+    fontSize: 14,
+    fontWeight: '600',
+    textShadowColor: 'rgba(140, 90, 180, 0.4)',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 2,
+  },
+  btnPapelTextJugar: {
+    color: 'rgba(200, 240, 220, 0.98)',
+    textShadowColor: 'rgba(80, 120, 100, 0.5)',
+  },
   tip: {
     position: 'absolute',
     bottom: 12,

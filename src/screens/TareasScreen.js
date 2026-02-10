@@ -94,6 +94,7 @@ const ICONO_ORDENAR_ARMARIOS = require('../../assets/icon-ordenar-armarios.png')
 const ICONO_PLANCHAR = require('../../assets/icon-planchar.png');
 const ICONO_LIMPIAR_LAMPARAS = require('../../assets/icon-limpiar-lamparas.png');
 const ICONO_SACAR_BASURA = require('../../assets/icon-sacar-basura.png');
+const ICONO_ORDENAR_DONAR = require('../../assets/icon-ordenar-donar.png');
 
 function iconStyleForTask(tipo, taskId) {
   if (tipo === 'diaria' && taskId === 'd9') return styles.taskIconImageCastillo;
@@ -110,7 +111,7 @@ function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema }) {
   return (
     <ScrollView style={styles.lista} contentContainerStyle={styles.listaContent}>
       {tareas.map((task) => {
-        const iconoImagen = (tipo === 'semanal' && task.id === 's1') ? ICONO_LAVAR_ROPA : (tipo === 'semanal' && task.id === 's2') ? ICONO_PLANCHAR : (tipo === 'semanal' && task.id === 's6') ? ICONO_ORDENAR_ARMARIOS : (tipo === 'diaria' && task.id === 'd9') ? ICONO_BARRER_TRAPEAR : (tipo === 'diaria' && task.id === 'd3') ? ICONO_BANO : (tipo === 'diaria' && task.id === 'd4') ? ICONO_TENDER_CAMA : (tipo === 'diaria' && task.id === 'd6') ? ICONO_SACAR_BASURA : (tipo === 'diaria' && task.id === 'd7') ? ICONO_LIMPIAR_POLVO : (tipo === 'mensual' && task.id === 'm1') ? ICONO_LIMPIAR_VENTANAS : (tipo === 'mensual' && task.id === 'm4') ? ICONO_LIMPIAR_LAMPARAS : null;
+        const iconoImagen = (tipo === 'semanal' && task.id === 's1') ? ICONO_LAVAR_ROPA : (tipo === 'semanal' && task.id === 's2') ? ICONO_PLANCHAR : (tipo === 'semanal' && task.id === 's6') ? ICONO_ORDENAR_ARMARIOS : (tipo === 'diaria' && task.id === 'd9') ? ICONO_BARRER_TRAPEAR : (tipo === 'diaria' && task.id === 'd3') ? ICONO_BANO : (tipo === 'diaria' && task.id === 'd4') ? ICONO_TENDER_CAMA : (tipo === 'diaria' && task.id === 'd6') ? ICONO_SACAR_BASURA : (tipo === 'diaria' && task.id === 'd7') ? ICONO_LIMPIAR_POLVO : (tipo === 'mensual' && task.id === 'm1') ? ICONO_LIMPIAR_VENTANAS : (tipo === 'mensual' && task.id === 'm4') ? ICONO_LIMPIAR_LAMPARAS : (tipo === 'anual' && task.id === 'a3') ? ICONO_ORDENAR_DONAR : null;
         const usarIconoImagen = !!iconoImagen;
         return (
         <TouchableOpacity
