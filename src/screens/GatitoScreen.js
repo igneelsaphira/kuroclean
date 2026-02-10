@@ -62,11 +62,12 @@ export default function GatitoScreen() {
     return () => { breathing.stop(); bobbing.stop(); };
   }, [breathe, bob]);
 
-  const FRASES_BURBUJA = ['¡Hola!', 'Jugemos', 'Mami limpiemos? :3'];
+  const FRASES_BURBUJA = ['¡Hola!', 'Jugemos', 'Mami limpiemos? :3', 'Buen día mamita, espero estés sintiéndote bien :3'];
   const BURBUJA_TEMAS = [
     { bg: 'rgba(90, 55, 130, 0.45)', border: 'rgba(140, 90, 180, 0.6)', text: 'rgba(220, 190, 255, 0.98)' },
     { bg: 'rgba(70, 150, 210, 0.45)', border: 'rgba(110, 180, 230, 0.6)', text: 'rgba(190, 235, 255, 0.98)' },
     { bg: 'rgba(150, 120, 200, 0.4)', border: 'rgba(180, 150, 220, 0.55)', text: 'rgba(230, 210, 255, 0.98)' },
+    { bg: 'rgba(100, 160, 140, 0.45)', border: 'rgba(130, 190, 170, 0.6)', text: 'rgba(210, 245, 230, 0.98)' },
   ];
   const [fraseVisible, setFraseVisible] = useState(null);
   const [fraseIndex, setFraseIndex] = useState(0);
