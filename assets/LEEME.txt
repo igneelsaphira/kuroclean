@@ -1,0 +1,10 @@
+Imagen de fondo (escritorio pastel con cuaderno)
+
+1. Copia aquí tu imagen con el nombre exacto: study-bg.png
+
+2. Si la imagen está en la carpeta de Cursor:
+   - En el explorador de Cursor, busca la carpeta "assets" del proyecto.
+   - Ahí puede estar la imagen con nombre largo (c__Users_Usuario_...).
+   - Cópiala a esta carpeta (c:\Users\Usuario\kuronekoclean\assets\) y renómbrala a: study-bg.png
+
+3. Si la app dice "Unable to resolve study-bg.png", es que el archivo aún no está. Asegúrate de que study-bg.png esté dentro de esta carpeta "assets".
