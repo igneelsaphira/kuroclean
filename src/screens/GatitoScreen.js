@@ -6,8 +6,8 @@ import { useCat } from '../context/CatContext';
 import StudyCornerRoom from '../components/StudyCornerRoom';
 
 // Imagen de fondo: tu ilustración de escritorio pastel.
-// Copia tu imagen en assets/study-bg.png y pon FONDO_LOCAL = true.
-const FONDO_LOCAL = true; // Pon true cuando copies study-bg.png en assets/
+// Usamos study-bg.png.jpeg en assets. Si vectorizas el fondo y tienes study-bg.svg, avisa y lo usamos con react-native-svg (escala bien en cualquier pantalla).
+const FONDO_LOCAL = true;
 const FONDO_RESPALDO =
   'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800';
 
@@ -15,6 +15,9 @@ const FONDO_RESPALDO =
 // TAREAS_LEFT: más número = más a la derecha. TAREAS_TOP_EXTRA: más número = más abajo.
 const TAREAS_LEFT = 199;
 const TAREAS_TOP_EXTRA = 143;
+
+const ICONO_ALIMENTAR = require('../../assets/icon-alimentar.png');
+const ICONO_JUGAR = require('../../assets/icon-jugar.png');
 
 function BarraMini({ valor, color, label }) {
   return (
@@ -36,26 +39,12 @@ export default function GatitoScreen() {
   const breathe = useRef(new Animated.Value(1)).current;
   const bob = useRef(new Animated.Value(0)).current;
   const tareasScale = useRef(new Animated.Value(1)).current;
-  const alimentarScale = useRef(new Animated.Value(1)).current;
-  const jugarScale = useRef(new Animated.Value(1)).current;
 
   const tareasPressIn = () => {
     Animated.spring(tareasScale, { toValue: 0.88, useNativeDriver: true, speed: 80 }).start();
   };
   const tareasPressOut = () => {
     Animated.spring(tareasScale, { toValue: 1, useNativeDriver: true, speed: 80 }).start();
-  };
-  const alimentarPressIn = () => {
-    Animated.spring(alimentarScale, { toValue: 0.88, useNativeDriver: true, speed: 80 }).start();
-  };
-  const alimentarPressOut = () => {
-    Animated.spring(alimentarScale, { toValue: 1, useNativeDriver: true, speed: 80 }).start();
-  };
-  const jugarPressIn = () => {
-    Animated.spring(jugarScale, { toValue: 0.88, useNativeDriver: true, speed: 80 }).start();
-  };
-  const jugarPressOut = () => {
-    Animated.spring(jugarScale, { toValue: 1, useNativeDriver: true, speed: 80 }).start();
   };
 
   useEffect(() => {
@@ -183,38 +172,22 @@ export default function GatitoScreen() {
 
       {/* Hambre y Felicidad: mismo estilo pastel que Tareas */}
       <View style={styles.statsCard}>
-        <BarraMini valor={hambre} color="rgba(220, 120, 130, 0.95)" label="🍽️ Hambre" />
-        <BarraMini valor={felicidad} color="rgba(120, 200, 160, 0.95)" label="💚 Felicidad" />
+        <BarraMini valor={hambre} color="rgba(100, 190, 255, 0.95)" label="🐟 Hambre" />
+        <BarraMini valor={felicidad} color="rgba(255, 195, 215, 0.92)" label="💗 Felicidad" />
         {progresoAseo > 0 && (
           <Text style={styles.aseoBonus}>✨ +{Math.floor(progresoAseo / 20)} aseo</Text>
         )}
       </View>
 
-      {/* Alimentar y Jugar: mismo estilo que botón Tareas (pastel + animación) */}
+      {/* Alimentar y Jugar: cuadrados originales; sardina encima del de Alimentar, Jugar en celeste */}
       <View style={styles.actions}>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPressIn={alimentarPressIn}
-          onPressOut={alimentarPressOut}
-          onPress={alimentar}
-          style={[styles.btnPapel, styles.btnComida]}
-        >
-          <Animated.View style={{ transform: [{ scale: alimentarScale }] }}>
-            <Text style={styles.btnPapelIcon}>🍽️</Text>
-            <Text style={styles.btnPapelText}>Alimentar</Text>
-          </Animated.View>
+        <TouchableOpacity style={[styles.btn, styles.btnComida]} onPress={alimentar}>
+          <Image source={ICONO_ALIMENTAR} style={styles.btnIconImage} resizeMode="contain" />
+          <Text style={styles.btnText}>Alimentar</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPressIn={jugarPressIn}
-          onPressOut={jugarPressOut}
-          onPress={jugar}
-          style={[styles.btnPapel, styles.btnJugar]}
-        >
-          <Animated.View style={{ transform: [{ scale: jugarScale }] }}>
-            <Text style={styles.btnPapelIcon}>🎾</Text>
-            <Text style={[styles.btnPapelText, styles.btnPapelTextJugar]}>Jugar</Text>
-          </Animated.View>
+        <TouchableOpacity style={[styles.btn, styles.btnJugar]} onPress={jugar}>
+          <Image source={ICONO_JUGAR} style={styles.btnIconImage} resizeMode="contain" />
+          <Text style={styles.btnText}>Jugar</Text>
         </TouchableOpacity>
       </View>
 
@@ -292,7 +265,7 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 154,
     left: 20,
     right: 20,
     backgroundColor: 'rgba(90, 55, 130, 0.45)',
@@ -341,38 +314,22 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     flexDirection: 'row',
-    gap: 12,
+    gap: 16,
   },
-  btnPapel: {
+  btn: {
     flex: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 12,
+    padding: 12,
     borderRadius: 20,
     alignItems: 'center',
-    justifyContent: 'center',
     borderWidth: 1,
+    backgroundColor: 'rgba(90, 55, 130, 0.45)',
+    borderColor: 'rgba(140, 90, 180, 0.6)',
   },
-  btnComida: {
-    backgroundColor: 'rgba(90, 55, 130, 0.5)',
-    borderColor: 'rgba(180, 120, 140, 0.7)',
-  },
-  btnJugar: {
-    backgroundColor: 'rgba(70, 120, 100, 0.5)',
-    borderColor: 'rgba(120, 180, 150, 0.7)',
-  },
-  btnPapelIcon: { fontSize: 24, marginBottom: 4 },
-  btnPapelText: {
-    color: 'rgba(220, 190, 255, 0.98)',
-    fontSize: 14,
-    fontWeight: '600',
-    textShadowColor: 'rgba(140, 90, 180, 0.4)',
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 2,
-  },
-  btnPapelTextJugar: {
-    color: 'rgba(200, 240, 220, 0.98)',
-    textShadowColor: 'rgba(80, 120, 100, 0.5)',
-  },
+  btnComida: {},
+  btnJugar: {},
+  btnIcon: { fontSize: 22, marginBottom: 2 },
+  btnIconImage: { width: 52, height: 52, marginBottom: 4 },
+  btnText: { color: 'rgba(220, 190, 255, 0.98)', fontSize: 13, fontWeight: '600' },
   tip: {
     position: 'absolute',
     bottom: 12,
