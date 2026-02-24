@@ -101,7 +101,7 @@ function iconStyleForTask(tipo, taskId) {
   if (tipo === 'diaria' && taskId === 'd9') return styles.taskIconImageCastillo;
   if (tipo === 'diaria' && taskId === 'd3') return styles.taskIconImageBano;
   if (tipo === 'diaria' && taskId === 'd7') return styles.taskIconImagePolvo;
-  if (tipo === 'semanal' && taskId === 's1') return styles.taskIconImageLarge;
+  if (tipo === 'semanal' && taskId === 's1') return styles.taskIconImageLavarRopa;
   if (tipo === 'diaria' && taskId === 'd4') return styles.taskIconImageLarge;
   if (tipo === 'mensual' && taskId === 'm1') return styles.taskIconImageVentanasLarge;
   return styles.taskIconImage;
@@ -347,6 +347,14 @@ const styles = StyleSheet.create({
     height: 90,
     left: -22,
     top: -27,
+    backgroundColor: 'transparent',
+  },
+  taskIconImageLavarRopa: {
+    position: 'absolute',
+    width: 130,
+    height: 130,
+    left: -47,
+    top: -47,
     backgroundColor: 'transparent',
   },
   taskIconImageLarge: {
