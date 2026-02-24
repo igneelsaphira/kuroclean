@@ -353,7 +353,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 130,
     height: 130,
-    left: -38,
+    left: -33,
     top: -38,
     backgroundColor: 'transparent',
   },
