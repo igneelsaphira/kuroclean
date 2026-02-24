@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, ImageBackground, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, ImageBackground, Image, Modal } from 'react-native';
 import { Image as ExpoImage } from 'expo-image';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -110,7 +110,7 @@ function iconStyleForTask(tipo, taskId) {
   return styles.taskIconImage;
 }
 
-function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema }) {
+function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema, onIconLongPress }) {
   const t = tema || TEMAS.diaria;
   return (
     <ScrollView style={styles.lista} contentContainerStyle={styles.listaContent}>
@@ -129,6 +129,8 @@ function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema }) {
             (tipo === 'mensual' && task.id === 'm1') && styles.taskBaseWithLargeIcon,
           ]}
           onPress={() => marcarTarea(tipo, task.id)}
+          onLongPress={usarIconoImagen ? () => onIconLongPress(iconoImagen) : undefined}
+          delayLongPress={500}
           activeOpacity={0.7}
         >
           {usarIconoImagen ? (
@@ -171,6 +173,7 @@ export default function TareasScreen() {
   } = useCat();
 
   const [pestaña, setPestaña] = useState('diaria');
+  const [iconoPreview, setIconoPreview] = useState(null);
 
   const datos = {
     diaria: { tareas: tareasDiaria, reiniciar: reiniciarDia },
@@ -228,8 +231,32 @@ export default function TareasScreen() {
           marcarTarea={marcarTarea}
           reiniciar={reiniciar}
           tema={TEMAS[pestaña]}
+          onIconLongPress={setIconoPreview}
         />
       </View>
+
+      <Modal
+        visible={!!iconoPreview}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setIconoPreview(null)}
+      >
+        <View style={styles.modalOverlay}>
+          <TouchableOpacity
+            style={styles.modalClose}
+            onPress={() => setIconoPreview(null)}
+          >
+            <Ionicons name="close" size={32} color="#fff" />
+          </TouchableOpacity>
+          {iconoPreview && (
+            <ExpoImage
+              source={iconoPreview}
+              style={styles.modalImage}
+              contentFit="contain"
+            />
+          )}
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -413,4 +440,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   resetBtnTextBase: { fontSize: 16, fontWeight: '600' },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalClose: {
+    position: 'absolute',
+    top: 60,
+    right: 24,
+    zIndex: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 20,
+    padding: 8,
+  },
+  modalImage: {
+    width: '85%',
+    height: '70%',
+  },
 });
