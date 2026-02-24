@@ -200,19 +200,18 @@ export default function TareasScreen() {
 
         <View style={styles.tabs}>
           {PESTAÑAS.map((tab) => {
-            const temaTab = TEMAS[tab.key];
             const isActive = pestaña === tab.key;
             return (
               <TouchableOpacity
                 key={tab.key}
                 style={[
                   styles.tabBase,
-                  { backgroundColor: temaTab.tabBg, borderColor: temaTab.tabBorder },
-                  isActive && { backgroundColor: temaTab.tabActiveBg, borderColor: temaTab.tabActiveBorder },
+                  styles.tabInactive,
+                  isActive && styles.tabActive,
                 ]}
                 onPress={() => setPestaña(tab.key)}
               >
-                <Text style={[styles.tabText, !isActive && { color: temaTab.resetText }, isActive && styles.tabTextActive]}>
+                <Text style={[styles.tabText, styles.tabTextInactive, isActive && styles.tabTextActive]}>
                   {tab.label}
                 </Text>
               </TouchableOpacity>
@@ -268,7 +267,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
   },
+  tabInactive: {
+    backgroundColor: 'rgba(90, 55, 130, 0.4)',
+    borderColor: 'rgba(140, 90, 180, 0.5)',
+  },
+  tabActive: {
+    backgroundColor: 'rgba(90, 170, 220, 0.65)',
+    borderColor: 'rgba(150, 210, 255, 0.9)',
+  },
   tabText: { fontSize: 14, fontWeight: '600' },
+  tabTextInactive: { color: 'rgba(220, 190, 255, 0.95)' },
   tabTextActive: { color: '#fff' },
   lista: { flex: 1 },
   listaContent: { paddingBottom: 40 },
