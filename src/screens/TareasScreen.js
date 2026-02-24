@@ -353,8 +353,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 130,
     height: 130,
-    left: -47,
-    top: -47,
+    left: -38,
+    top: -38,
     backgroundColor: 'transparent',
   },
   taskIconImageLarge: {
