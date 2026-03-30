@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Animated, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -116,6 +116,8 @@ export default function GatitoScreen() {
     };
   }, [bubbleOpacity]);
 
+  const topForOverlay = (Platform.OS === 'web' ? Math.max(insets.top, 44) : insets.top);
+
   return (
     <View style={styles.container}>
       {/* Fondo: imagen tipo "peaceful study corner" o dibujo si falla */}
@@ -133,7 +135,7 @@ export default function GatitoScreen() {
       {errorFondo ? <StudyCornerRoom /> : null}
 
       <TouchableOpacity
-        style={[styles.linkNotas, { top: insets.top + 10, right: 16 }]}
+        style={[styles.linkNotas, { top: topForOverlay + 10, right: 16 }]}
         onPress={() => navigation.navigate('SeguirTrabajando')}
         activeOpacity={0.7}
       >
@@ -147,7 +149,7 @@ export default function GatitoScreen() {
         onPressIn={tareasPressIn}
         onPressOut={tareasPressOut}
         onPress={() => navigation.navigate('Tareas')}
-        style={[styles.papelTareas, { left: TAREAS_LEFT, top: insets.top + TAREAS_TOP_EXTRA }]}
+        style={[styles.papelTareas, { left: TAREAS_LEFT, top: topForOverlay + TAREAS_TOP_EXTRA }]}
       >
         <Animated.View style={{ transform: [{ scale: tareasScale }] }}>
           <Text style={styles.papelTareasText}>Tareas</Text>
