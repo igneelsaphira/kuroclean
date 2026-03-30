@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CatProvider } from './src/context/CatContext';
 import GatitoScreen from './src/screens/GatitoScreen';
 import TareasScreen from './src/screens/TareasScreen';
+import SeguirTrabajandoScreen from './src/screens/SeguirTrabajandoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
           >
             <Stack.Screen name="Gatito" component={GatitoScreen} />
             <Stack.Screen name="Tareas" component={TareasScreen} />
+            <Stack.Screen name="SeguirTrabajando" component={SeguirTrabajandoScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </CatProvider>

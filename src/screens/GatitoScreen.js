@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCat } from '../context/CatContext';
 import StudyCornerRoom from '../components/StudyCornerRoom';
@@ -131,6 +132,15 @@ export default function GatitoScreen() {
       ) : null}
       {errorFondo ? <StudyCornerRoom /> : null}
 
+      <TouchableOpacity
+        style={[styles.linkNotas, { top: insets.top + 10, right: 16 }]}
+        onPress={() => navigation.navigate('SeguirTrabajando')}
+        activeOpacity={0.7}
+      >
+        <Ionicons name="clipboard-outline" size={22} color="rgba(100, 70, 130, 0.95)" />
+        <Text style={styles.linkNotasText}>Seguir app</Text>
+      </TouchableOpacity>
+
       {/* "Tareas" como en un papel de la pizarra: se agranda/reduce al tocar */}
       <TouchableOpacity
         activeOpacity={1}
@@ -198,6 +208,22 @@ export default function GatitoScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  linkNotas: {
+    position: 'absolute',
+    zIndex: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.55)',
+    borderRadius: 16,
+  },
+  linkNotasText: {
+    marginLeft: 6,
+    color: 'rgba(100, 70, 130, 0.95)',
+    fontSize: 13,
+    fontWeight: '600',
+  },
   fondoImagen: {
     ...StyleSheet.absoluteFillObject,
   },
