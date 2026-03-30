@@ -125,7 +125,9 @@ export default function GatitoScreen() {
         <ImageBackground
           source={FONDO_LOCAL ? require('../../assets/study-bg.png.jpeg') : { uri: FONDO_RESPALDO }}
           style={styles.fondoImagen}
-          resizeMode="cover"
+          // En web el contenedor/viewport puede recortar más con "cover".
+          // "contain" deja ver casi toda la imagen como en el celular.
+          resizeMode={Platform.OS === 'web' ? 'contain' : 'cover'}
           onLoad={() => {}}
           onError={() => setErrorFondo(true)}
         >
