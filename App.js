@@ -34,8 +34,12 @@ function WebPhoneShell({ children }) {
   const winW = Math.max(rawW || 800, 320);
   const winH = Math.max(rawH || 900, 500);
 
-  const frameW = Math.min(PHONE_W, winW - 32);
-  const frameH = Math.min(PHONE_H, Math.round(winH * 0.9));
+  // Mantener proporción EXACTA del celular para que el fondo no se vea "agrandado".
+  const availableW = Math.max(1, winW - 24);
+  const availableH = Math.max(1, winH - 24);
+  const scale = Math.min(availableW / PHONE_W, availableH / PHONE_H, 1);
+  const frameW = Math.round(PHONE_W * scale);
+  const frameH = Math.round(PHONE_H * scale);
 
   return (
     <View style={styles.webOuter}>
@@ -45,7 +49,6 @@ function WebPhoneShell({ children }) {
           {
             width: frameW,
             height: frameH,
-            minHeight: Math.min(560, frameH),
           },
         ]}
       >
