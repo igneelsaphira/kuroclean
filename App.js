@@ -11,23 +11,41 @@ import SeguirTrabajandoScreen from './src/screens/SeguirTrabajandoScreen';
 
 const Stack = createNativeStackNavigator();
 
+if (Platform.OS === 'web' && typeof document !== 'undefined') {
+  const root = document.getElementById('root');
+  if (root) {
+    root.style.flex = '1';
+    root.style.display = 'flex';
+    root.style.flexDirection = 'column';
+    root.style.minHeight = '100vh';
+    root.style.width = '100%';
+  }
+  document.body.style.margin = '0';
+  document.body.style.minHeight = '100vh';
+  document.documentElement.style.height = '100%';
+}
+
 const PHONE_W = 390;
 const PHONE_H = 844;
 
 function WebPhoneShell({ children }) {
-  const { width: winW, height: winH } = useWindowDimensions();
-  const frameW = Math.min(PHONE_W, winW - 24);
-  const frameH = Math.min(PHONE_H, Math.round(winH * 0.92));
+  const { width: rawW, height: rawH } = useWindowDimensions();
+  // En web el primer render a veces viene en 0 y el marco colapsa a una línea.
+  const winW = Math.max(rawW || 800, 320);
+  const winH = Math.max(rawH || 900, 500);
+
+  const frameW = Math.min(PHONE_W, winW - 32);
+  const frameH = Math.min(PHONE_H, Math.round(winH * 0.9));
 
   return (
-    <View style={[styles.webOuter, { minHeight: winH }]}>
+    <View style={styles.webOuter}>
       <View
         style={[
           styles.webPhone,
           {
             width: frameW,
             height: frameH,
-            maxHeight: winH * 0.92,
+            minHeight: Math.min(560, frameH),
           },
         ]}
       >
@@ -40,13 +58,18 @@ function WebPhoneShell({ children }) {
 function AppNavigation() {
   return (
     <CatProvider>
-      <NavigationContainer>
+      <NavigationContainer
+        style={Platform.OS === 'web' ? styles.navFill : undefined}
+      >
         <StatusBar style="light" />
         <Stack.Navigator
           initialRouteName="Gatito"
           screenOptions={{
             headerShown: false,
-            contentStyle: { backgroundColor: '#16213e' },
+            contentStyle: {
+              backgroundColor: '#16213e',
+              ...(Platform.OS === 'web' ? { flex: 1 } : {}),
+            },
           }}
         >
           <Stack.Screen name="Gatito" component={GatitoScreen} />
@@ -64,7 +87,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       {Platform.OS === 'web' ? (
-        <WebPhoneShell>{body}</WebPhoneShell>
+        <View style={styles.webRoot}>
+          <WebPhoneShell>{body}</WebPhoneShell>
+        </View>
       ) : (
         body
       )}
@@ -73,31 +98,56 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  webRoot: {
+    ...Platform.select({
+      web: {
+        flex: 1,
+        minHeight: '100vh',
+        width: '100%',
+      },
+      default: { flex: 1 },
+    }),
+  },
   webOuter: {
-    flex: 1,
-    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#0f0f18',
-    paddingVertical: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    ...Platform.select({
+      web: {
+        flex: 1,
+        width: '100%',
+        minHeight: '100vh',
+      },
+      default: {
+        width: '100%',
+      },
+    }),
   },
   webPhone: {
-    flex: 0,
-    borderRadius: 28,
+    borderRadius: 32,
     overflow: 'hidden',
     backgroundColor: '#16213e',
-    borderWidth: 3,
-    borderColor: 'rgba(255, 255, 255, 0.12)',
+    borderWidth: 4,
+    borderColor: 'rgba(255, 255, 255, 0.18)',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 16 },
-    shadowOpacity: 0.5,
-    shadowRadius: 32,
-    elevation: 24,
+    shadowOffset: { width: 0, height: 20 },
+    shadowOpacity: 0.55,
+    shadowRadius: 40,
+    elevation: 28,
   },
   webPhoneInner: {
     flex: 1,
     width: '100%',
+    height: '100%',
     minHeight: 0,
     minWidth: 0,
+  },
+  navFill: {
+    flex: 1,
+    height: '100%',
+    minHeight: 0,
+    width: '100%',
   },
 });
