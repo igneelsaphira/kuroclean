@@ -107,6 +107,39 @@ const ICONO_LIMPIAR_COCINA = require('../../assets/icon-limpiar-cocina.png');
 const ICONO_CAMBIAR_SABANAS = require('../../assets/icon-cambiar-sabanas.png');
 const ICONO_REVISAR_PINTURA = require('../../assets/icon-revisar-pintura.png');
 
+const OPCIONES_ICONOS_POR_TIPO = {
+  diaria: [
+    { key: 'd1', label: 'Hacer desayuno', source: ICONO_DESAYUNO },
+    { key: 'd2', label: 'Tomar desayuno', source: ICONO_TOMAR_DESAYUNO },
+    { key: 'd5', label: 'Tomar once', source: ICONO_TOMAR_ONCE },
+    { key: 'd3', label: 'Baño', source: ICONO_BANO },
+    { key: 'd4', label: 'Tender cama', source: ICONO_TENDER_CAMA },
+    { key: 'd6', label: 'Sacar basura', source: ICONO_SACAR_BASURA },
+    { key: 'd7', label: 'Limpiar polvo', source: ICONO_LIMPIAR_POLVO },
+    { key: 'd8', label: 'Lavar loza', source: ICONO_LAVAR_LOZA },
+    { key: 'd9', label: 'Barrer', source: ICONO_BARRER_TRAPEAR },
+  ],
+  semanal: [
+    { key: 's1', label: 'Lavar ropa', source: ICONO_LAVAR_ROPA },
+    { key: 's2', label: 'Planchar', source: ICONO_PLANCHAR },
+    { key: 's3', label: 'Limpiar cocina', source: ICONO_LIMPIAR_COCINA },
+    { key: 's4', label: 'Limpiar refrigerador', source: ICONO_LIMPIAR_REFRIGERADOR },
+    { key: 's5', label: 'Cambiar sábanas', source: ICONO_CAMBIAR_SABANAS },
+    { key: 's6', label: 'Ordenar armarios', source: ICONO_ORDENAR_ARMARIOS },
+  ],
+  mensual: [
+    { key: 'm1', label: 'Limpiar ventanas', source: ICONO_LIMPIAR_VENTANAS },
+    { key: 'm2', label: 'Aspirar', source: ICONO_ASPIRAR },
+    { key: 'm3', label: 'Revisar despensa', source: ICONO_REVISAR_DESPENSA },
+    { key: 'm4', label: 'Limpiar lámparas', source: ICONO_LIMPIAR_LAMPARAS },
+  ],
+  anual: [
+    { key: 'a1', label: 'Limpieza profunda', source: ICONO_LIMPIEZA_PROFUNDA },
+    { key: 'a2', label: 'Revisar pintura/paredes', source: ICONO_REVISAR_PINTURA },
+    { key: 'a3', label: 'Ordenar donar', source: ICONO_ORDENAR_DONAR },
+  ],
+};
+
 function iconStyleForTask(tipo, taskId) {
   if (tipo === 'diaria' && taskId === 'd9') return styles.taskIconImageCastillo;
   if (tipo === 'diaria' && taskId === 'd3') return styles.taskIconImageBano;
@@ -117,12 +150,37 @@ function iconStyleForTask(tipo, taskId) {
   return styles.taskIconImage;
 }
 
-function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema, onIconLongPress }) {
+function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema, onIconLongPress, iconOverrides }) {
   const t = tema || TEMAS.diaria;
   return (
     <ScrollView style={styles.lista} contentContainerStyle={styles.listaContent}>
       {tareas.map((task) => {
-        const iconoImagen = (tipo === 'diaria' && task.id === 'd1') ? ICONO_DESAYUNO : (tipo === 'diaria' && task.id === 'd2') ? ICONO_TOMAR_DESAYUNO : (tipo === 'diaria' && task.id === 'd5') ? ICONO_TOMAR_ONCE : (tipo === 'semanal' && task.id === 's1') ? ICONO_LAVAR_ROPA : (tipo === 'semanal' && task.id === 's2') ? ICONO_PLANCHAR : (tipo === 'semanal' && task.id === 's3') ? ICONO_LIMPIAR_COCINA : (tipo === 'semanal' && task.id === 's4') ? ICONO_LIMPIAR_REFRIGERADOR : (tipo === 'semanal' && task.id === 's5') ? ICONO_CAMBIAR_SABANAS : (tipo === 'semanal' && task.id === 's6') ? ICONO_ORDENAR_ARMARIOS : (tipo === 'diaria' && task.id === 'd9') ? ICONO_BARRER_TRAPEAR : (tipo === 'diaria' && task.id === 'd3') ? ICONO_BANO : (tipo === 'diaria' && task.id === 'd4') ? ICONO_TENDER_CAMA : (tipo === 'diaria' && task.id === 'd6') ? ICONO_SACAR_BASURA : (tipo === 'diaria' && task.id === 'd7') ? ICONO_LIMPIAR_POLVO : (tipo === 'diaria' && task.id === 'd8') ? ICONO_LAVAR_LOZA : (tipo === 'mensual' && task.id === 'm1') ? ICONO_LIMPIAR_VENTANAS : (tipo === 'mensual' && task.id === 'm2') ? ICONO_ASPIRAR : (tipo === 'mensual' && task.id === 'm3') ? ICONO_REVISAR_DESPENSA : (tipo === 'mensual' && task.id === 'm4') ? ICONO_LIMPIAR_LAMPARAS : (tipo === 'anual' && task.id === 'a1') ? ICONO_LIMPIEZA_PROFUNDA : (tipo === 'anual' && task.id === 'a2') ? ICONO_REVISAR_PINTURA : (tipo === 'anual' && task.id === 'a3') ? ICONO_ORDENAR_DONAR : null;
+        const defaultIconoImagen =
+          (tipo === 'diaria' && task.id === 'd1') ? ICONO_DESAYUNO :
+          (tipo === 'diaria' && task.id === 'd2') ? ICONO_TOMAR_DESAYUNO :
+          (tipo === 'diaria' && task.id === 'd5') ? ICONO_TOMAR_ONCE :
+          (tipo === 'semanal' && task.id === 's1') ? ICONO_LAVAR_ROPA :
+          (tipo === 'semanal' && task.id === 's2') ? ICONO_PLANCHAR :
+          (tipo === 'semanal' && task.id === 's3') ? ICONO_LIMPIAR_COCINA :
+          (tipo === 'semanal' && task.id === 's4') ? ICONO_LIMPIAR_REFRIGERADOR :
+          (tipo === 'semanal' && task.id === 's5') ? ICONO_CAMBIAR_SABANAS :
+          (tipo === 'semanal' && task.id === 's6') ? ICONO_ORDENAR_ARMARIOS :
+          (tipo === 'diaria' && task.id === 'd9') ? ICONO_BARRER_TRAPEAR :
+          (tipo === 'diaria' && task.id === 'd3') ? ICONO_BANO :
+          (tipo === 'diaria' && task.id === 'd4') ? ICONO_TENDER_CAMA :
+          (tipo === 'diaria' && task.id === 'd6') ? ICONO_SACAR_BASURA :
+          (tipo === 'diaria' && task.id === 'd7') ? ICONO_LIMPIAR_POLVO :
+          (tipo === 'diaria' && task.id === 'd8') ? ICONO_LAVAR_LOZA :
+          (tipo === 'mensual' && task.id === 'm1') ? ICONO_LIMPIAR_VENTANAS :
+          (tipo === 'mensual' && task.id === 'm2') ? ICONO_ASPIRAR :
+          (tipo === 'mensual' && task.id === 'm3') ? ICONO_REVISAR_DESPENSA :
+          (tipo === 'mensual' && task.id === 'm4') ? ICONO_LIMPIAR_LAMPARAS :
+          (tipo === 'anual' && task.id === 'a1') ? ICONO_LIMPIEZA_PROFUNDA :
+          (tipo === 'anual' && task.id === 'a2') ? ICONO_REVISAR_PINTURA :
+          (tipo === 'anual' && task.id === 'a3') ? ICONO_ORDENAR_DONAR :
+          null;
+        const iconKey = `${tipo}:${task.id}`;
+        const iconoImagen = iconOverrides && iconOverrides[iconKey] ? iconOverrides[iconKey] : defaultIconoImagen;
         const usarIconoImagen = !!iconoImagen;
         return (
         <TouchableOpacity
@@ -136,7 +194,7 @@ function ListaTareas({ tipo, tareas, marcarTarea, reiniciar, tema, onIconLongPre
             (tipo === 'mensual' && task.id === 'm1') && styles.taskBaseWithLargeIcon,
           ]}
           onPress={() => marcarTarea(tipo, task.id)}
-          onLongPress={usarIconoImagen ? () => onIconLongPress(iconoImagen) : undefined}
+          onLongPress={usarIconoImagen ? () => onIconLongPress({ tipo, taskId: task.id, icono: iconoImagen }) : undefined}
           delayLongPress={500}
           activeOpacity={0.7}
         >
@@ -181,6 +239,32 @@ export default function TareasScreen() {
 
   const [pestaña, setPestaña] = useState('diaria');
   const [iconoPreview, setIconoPreview] = useState(null);
+  const [iconPreviewKey, setIconPreviewKey] = useState(null);
+  const [iconPreviewTipo, setIconPreviewTipo] = useState(null);
+  const [showIconOptions, setShowIconOptions] = useState(false);
+  const [iconOverrides, setIconOverrides] = useState({});
+
+  const closeIconModal = () => {
+    setIconoPreview(null);
+    setIconPreviewKey(null);
+    setIconPreviewTipo(null);
+    setShowIconOptions(false);
+  };
+
+  const handleIconLongPress = ({ tipo, taskId, icono }) => {
+    const key = `${tipo}:${taskId}`;
+    setIconPreviewKey(key);
+    setIconPreviewTipo(tipo);
+    setIconoPreview(icono);
+    setShowIconOptions(false);
+  };
+
+  const handleSelectIconOption = (source) => {
+    if (!iconPreviewKey) return;
+    setIconOverrides((prev) => ({ ...prev, [iconPreviewKey]: source }));
+    setIconoPreview(source);
+    setShowIconOptions(false);
+  };
 
   const datos = {
     diaria: { tareas: tareasDiaria, reiniciar: reiniciarDia },
@@ -238,7 +322,8 @@ export default function TareasScreen() {
           marcarTarea={marcarTarea}
           reiniciar={reiniciar}
           tema={TEMAS[pestaña]}
-          onIconLongPress={setIconoPreview}
+          onIconLongPress={handleIconLongPress}
+          iconOverrides={iconOverrides}
         />
       </View>
 
@@ -246,21 +331,60 @@ export default function TareasScreen() {
         visible={!!iconoPreview}
         transparent
         animationType="fade"
-        onRequestClose={() => setIconoPreview(null)}
+        onRequestClose={closeIconModal}
       >
         <View style={styles.modalOverlay}>
           <TouchableOpacity
-            style={styles.modalClose}
-            onPress={() => setIconoPreview(null)}
+            style={styles.modalCloseLeft}
+            onPress={closeIconModal}
           >
             <Ionicons name="close" size={32} color="#fff" />
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.modalChangeRight}
+            onPress={() => setShowIconOptions((v) => !v)}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="arrow-redo-outline" size={30} color="#fff" />
+          </TouchableOpacity>
+
           {iconoPreview && (
             <ExpoImage
               source={iconoPreview}
               style={styles.modalImage}
               contentFit="contain"
             />
+          )}
+
+          {showIconOptions && (
+            <View style={styles.modalOptionsWrap}>
+              <Text style={styles.modalOptionsTitle}>Cambiar ícono</Text>
+              <ScrollView style={styles.modalOptionsScroll}>
+                <View style={styles.modalOptionsGrid}>
+                  {(OPCIONES_ICONOS_POR_TIPO[iconPreviewTipo] || []).map((opt) => (
+                    <TouchableOpacity
+                      key={opt.key}
+                      style={[
+                        styles.modalOptionBtn,
+                        iconoPreview === opt.source && styles.modalOptionBtnActive,
+                      ]}
+                      onPress={() => handleSelectIconOption(opt.source)}
+                      activeOpacity={0.8}
+                    >
+                      <ExpoImage
+                        source={opt.source}
+                        style={styles.modalOptionThumb}
+                        contentFit="contain"
+                      />
+                      <Text style={styles.modalOptionLabel} numberOfLines={2}>
+                        {opt.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </ScrollView>
+            </View>
           )}
         </View>
       </Modal>
@@ -450,10 +574,21 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingTop: 110,
+    paddingHorizontal: 16,
   },
-  modalClose: {
+  modalCloseLeft: {
+    position: 'absolute',
+    top: 60,
+    left: 24,
+    zIndex: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 20,
+    padding: 8,
+  },
+  modalChangeRight: {
     position: 'absolute',
     top: 60,
     right: 24,
@@ -463,7 +598,52 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   modalImage: {
-    width: '85%',
-    height: '70%',
+    width: '86%',
+    height: '52%',
+  },
+  modalOptionsWrap: {
+    marginTop: 14,
+    width: '100%',
+  },
+  modalOptionsTitle: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '700',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalOptionsScroll: {
+    width: '100%',
+  },
+  modalOptionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    gap: 12,
+    paddingBottom: 24,
+  },
+  modalOptionBtn: {
+    width: 122,
+    borderRadius: 14,
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
+  },
+  modalOptionBtnActive: {
+    borderColor: 'rgba(150, 210, 255, 0.95)',
+    backgroundColor: 'rgba(90, 170, 220, 0.22)',
+  },
+  modalOptionThumb: {
+    width: 64,
+    height: 64,
+  },
+  modalOptionLabel: {
+    marginTop: 8,
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
