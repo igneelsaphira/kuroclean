@@ -123,7 +123,7 @@ export default function GatitoScreen() {
       {/* Fondo: imagen tipo "peaceful study corner" o dibujo si falla */}
       {!errorFondo ? (
         <ImageBackground
-          source={FONDO_LOCAL ? require('../../assets/study-bg.png.jpeg') : { uri: FONDO_RESPALDO }}
+          source={FONDO_LOCAL ? require('../../assets/study-bg.png.png') : { uri: FONDO_RESPALDO }}
           style={styles.fondoImagen}
           // En web el contenedor/viewport puede recortar más con "cover".
           // "contain" deja ver casi toda la imagen como en el celular.
