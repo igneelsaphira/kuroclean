@@ -1,21 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image, Animated, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Animated, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCat } from '../context/CatContext';
 import StudyCornerRoom from '../components/StudyCornerRoom';
 
-// Imagen de fondo: tu ilustración de escritorio pastel.
-// Usamos study-bg.png.jpeg en assets. Si vectorizas el fondo y tienes study-bg.svg, avisa y lo usamos con react-native-svg (escala bien en cualquier pantalla).
-const FONDO_LOCAL = true;
-const FONDO_RESPALDO =
-  'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800';
-
 // Posición de "Tareas" sobre la pizarra. Si no lo ves en el papel, cambia estos números:
 // TAREAS_LEFT: más número = más a la derecha. TAREAS_TOP_EXTRA: más número = más abajo.
-const TAREAS_LEFT = 199;
-const TAREAS_TOP_EXTRA = 143;
+const TAREAS_LEFT = 220;
+const TAREAS_TOP_EXTRA = 92;
 
 const ICONO_ALIMENTAR = require('../../assets/icon-alimentar.png');
 const ICONO_JUGAR = require('../../assets/icon-jugar.png');
@@ -36,7 +30,6 @@ export default function GatitoScreen() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const { hambre, felicidad, alimentar, jugar, progresoAseo } = useCat();
-  const [errorFondo, setErrorFondo] = useState(false);
   const breathe = useRef(new Animated.Value(1)).current;
   const bob = useRef(new Animated.Value(0)).current;
   const tareasScale = useRef(new Animated.Value(1)).current;
@@ -120,21 +113,7 @@ export default function GatitoScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Fondo: imagen tipo "peaceful study corner" o dibujo si falla */}
-      {!errorFondo ? (
-        <ImageBackground
-          source={FONDO_LOCAL ? require('../../assets/study-bg.png.png') : { uri: FONDO_RESPALDO }}
-          style={styles.fondoImagen}
-          // En web el contenedor/viewport puede recortar más con "cover".
-          // "contain" deja ver casi toda la imagen como en el celular.
-          resizeMode={Platform.OS === 'web' ? 'contain' : 'cover'}
-          onLoad={() => {}}
-          onError={() => setErrorFondo(true)}
-        >
-          <View style={styles.fondoImagenOverlay} />
-        </ImageBackground>
-      ) : null}
-      {errorFondo ? <StudyCornerRoom /> : null}
+      <StudyCornerRoom />
 
       <TouchableOpacity
         style={[styles.linkNotas, { top: topForOverlay + 10, right: 16 }]}
