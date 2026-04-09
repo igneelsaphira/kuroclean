@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Animated, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Animated, Platform, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCat } from '../context/CatContext';
 import StudyCornerRoom from '../components/StudyCornerRoom';
-
-// Posición de "Tareas" sobre la pizarra. Si no lo ves en el papel, cambia estos números:
-// TAREAS_LEFT: más número = más a la derecha. TAREAS_TOP_EXTRA: más número = más abajo.
-const TAREAS_LEFT = 220;
-const TAREAS_TOP_EXTRA = 92;
 
 const ICONO_ALIMENTAR = require('../../assets/icon-alimentar.png');
 const ICONO_JUGAR = require('../../assets/icon-jugar.png');
@@ -29,6 +24,7 @@ function BarraMini({ valor, color, label }) {
 export default function GatitoScreen() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { width: screenW, height: screenH } = useWindowDimensions();
   const { hambre, felicidad, alimentar, jugar, progresoAseo } = useCat();
   const breathe = useRef(new Animated.Value(1)).current;
   const bob = useRef(new Animated.Value(0)).current;
@@ -110,6 +106,8 @@ export default function GatitoScreen() {
   }, [bubbleOpacity]);
 
   const topForOverlay = (Platform.OS === 'web' ? Math.max(insets.top, 44) : insets.top);
+  const tareasLeft = Math.round(screenW * 0.58);
+  const tareasTop = topForOverlay + Math.round(screenH * 0.15);
 
   return (
     <View style={styles.container}>
@@ -130,7 +128,7 @@ export default function GatitoScreen() {
         onPressIn={tareasPressIn}
         onPressOut={tareasPressOut}
         onPress={() => navigation.navigate('Tareas')}
-        style={[styles.papelTareas, { left: TAREAS_LEFT, top: topForOverlay + TAREAS_TOP_EXTRA }]}
+        style={[styles.papelTareas, { left: tareasLeft, top: tareasTop }]}
       >
         <Animated.View style={{ transform: [{ scale: tareasScale }] }}>
           <Text style={styles.papelTareasText}>Tareas</Text>
@@ -217,15 +215,18 @@ const styles = StyleSheet.create({
   papelTareas: {
     position: 'absolute',
     zIndex: 10,
-    backgroundColor: 'transparent',
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    borderRadius: 20,
+    backgroundColor: 'rgba(255, 245, 202, 0.72)',
+    borderColor: 'rgba(215, 175, 195, 0.65)',
+    borderWidth: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    transform: [{ rotate: '-1.5deg' }],
   },
   papelTareasText: {
     color: 'rgba(100, 70, 130, 0.95)',
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 15,
+    fontWeight: '600',
     textShadowColor: 'rgba(140, 110, 170, 0.4)',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 2,
